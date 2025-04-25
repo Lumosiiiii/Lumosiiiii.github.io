@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>我的个人主页</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 50px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+    }
+
+    .profile img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin-right: 20px;
+      object-fit: cover;
+    }
+
+    h1 {
+      margin-bottom: 5px;
+    }
+
+    .section {
+      margin-top: 30px;
+    }
+
+    .section h2 {
+      color: #333;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 8px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .contact a {
+      display: block;
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="profile">
+      <img src="your-photo.jpg" alt="头像" />
+      <div>
+        <h1>你的名字</h1>
+        <p>前端开发 | AI研究员 | 技术爱好者</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>关于我</h2>
+      <p>
+        你好！我是一个对技术充满热情的开发者，喜欢探索Web开发、人工智能和系统设计等领域。拥有多年项目开发经验，热衷于分享和学习。
+      </p>
+    </div>
+
+    <div class="section">
+      <h2>技能</h2>
+      <ul>
+        <li>HTML / CSS / JavaScript / Vue.js</li>
+        <li>Python / PyTorch / TensorFlow</li>
+        <li>Node.js / MySQL / REST API</li>
+        <li>Git / Linux / Docker</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>联系方式</h2>
+      <div class="contact">
+        <a href="mailto:yourname@example.com">邮箱：yourname@example.com</a>
+        <a href="https://github.com/yourname" target="_blank">GitHub：github.com/yourname</a>
+        <a href="https://www.linkedin.com/in/yourname" target="_blank">LinkedIn：linkedin.com/in/yourname</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

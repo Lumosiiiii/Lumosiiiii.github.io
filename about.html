@@ -1,72 +1,38 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>关于我</title>
-  <style>
-    body {
-      font-family: "Helvetica Neue", sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: 50px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-      margin-bottom: 20px;
-    }
-
-    .back-link {
-      margin-top: 20px;
-      font-size: 16px;
-    }
-
-    a {
-      color: #007bff;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
-  <!-- 引入 Marked.js 库 -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我们</title>
+    <link rel="stylesheet" href="style.css"> <!-- 你可以自定义样式 -->
 </head>
 <body>
-  <div class="container">
-    <h1>关于我</h1>
-    
-    <!-- 用于显示 Markdown 文件内容的容器 -->
-    <div id="markdown-content"></div>
+    <header>
+        <h1>关于我们</h1>
+    </header>
 
-    <div class="back-link">
-      <a href="index.html">返回首页</a>
-    </div>
-  </div>
+    <main>
+        <div id="content"></div>
+    </main>
 
-  <script>
-    // 使用 JavaScript Fetch API 来加载本地的 Markdown 文件
-    fetch('about.md')
-      .then(response => response.text())
-      .then(data => {
-        // 使用 Marked.js 将 Markdown 转换为 HTML
-        const htmlContent = marked.parse(data);  // 改为使用 marked.parse()
-        // 将转换后的 HTML 插入到容器中
-        document.getElementById('markdown-content').innerHTML = htmlContent;
-      })
-      .catch(error => {
-        console.error('加载 Markdown 文件时出错：', error);
-      });
-  </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        // 创建一个函数来加载并渲染Markdown文件
+        function loadMarkdown(file) {
+            fetch(file)
+                .then(response => response.text())
+                .then(data => {
+                    // 将Markdown内容转化为HTML并显示在页面上
+                    document.getElementById('content').innerHTML = marked(data);
+                })
+                .catch(error => {
+                    console.error('加载Markdown文件失败:', error);
+                    document.getElementById('content').innerHTML = '<p>无法加载内容，请稍后再试。</p>';
+                });
+        }
+
+        // 调用函数加载同文件夹中的 about.md
+        loadMarkdown('about.md');
+    </script>
 </body>
 </html>

@@ -39,15 +39,34 @@
       text-decoration: underline;
     }
   </style>
+  <!-- 引入 Marked.js 库 -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>关于我</h1>
-    <p>这里是更多关于我的个人信息，项目经验等内容。</p>
     
+    <!-- 用于显示 Markdown 文件内容的容器 -->
+    <div id="markdown-content"></div>
+
     <div class="back-link">
       <a href="index.html">返回首页</a>
     </div>
   </div>
+
+  <script>
+    // 使用 JavaScript Fetch API 来加载本地的 Markdown 文件
+    fetch('about.md')
+      .then(response => response.text())
+      .then(data => {
+        // 使用 Marked.js 将 Markdown 转换为 HTML
+        const htmlContent = marked(data);
+        // 将转换后的 HTML 插入到容器中
+        document.getElementById('markdown-content').innerHTML = htmlContent;
+      })
+      .catch(error => {
+        console.error('加载 Markdown 文件时出错：', error);
+      });
+  </script>
 </body>
 </html>

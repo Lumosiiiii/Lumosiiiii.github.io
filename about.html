@@ -60,7 +60,7 @@
       .then(response => response.text())
       .then(data => {
         // 使用 Marked.js 将 Markdown 转换为 HTML
-        const htmlContent = marked(data);
+        const htmlContent = marked.parse(data);  // 改为使用 marked.parse()
         // 将转换后的 HTML 插入到容器中
         document.getElementById('markdown-content').innerHTML = htmlContent;
       })

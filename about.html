@@ -4,10 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Markdown to HTML</title>
+
+    <!-- 引入 marked 用于 Markdown 渲染 -->
     <script src="https://cdn.jsdelivr.net/npm/marked@4.0.0/lib/marked.min.js"></script>
+
+    <!-- 字体样式 -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- highlight.js 样式（深色） -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/github-dark.css">
-    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
+
+    <!-- highlight.js 脚本（延迟加载） -->
+    <script defer src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -60,14 +69,13 @@
             font-family: monospace;
             color: #d63384;
         }
-        
+
         /* 代码块样式 */
         pre code {
             background: none;
             color: #f8f8f2;
             font-size: 0.95em;
         }
-
 
         blockquote {
             border-left: 4px solid #ccc;
@@ -92,21 +100,28 @@
 </head>
 <body>
     <div id="markdown-content">Loading...</div>
+
     <script>
-        fetch('about.md')
-            .then(response => response.text())
-            .then(text => {
-                document.getElementById('markdown-content').innerHTML = marked.parse(text);
-        
-                // ✅ 确保 markdown 内容渲染完成之后再高亮
-                document.querySelectorAll('pre code').forEach((block) => {
-                    hljs.highlightElement(block);
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('about.md')
+                .then(response => response.text())
+                .then(text => {
+                    document.getElementById('markdown-content').innerHTML = marked.parse(text);
+
+                    // ✅ 在 highlight.js 加载完后再调用
+                    if (window.hljs) {
+                        document.querySelectorAll('pre code').forEach((block) => {
+                            hljs.highlightElement(block);
+                        });
+                    } else {
+                        console.warn('highlight.js is not loaded yet.');
+                    }
+                })
+                .catch(err => {
+                    document.getElementById('markdown-content').innerHTML = '<p style="color:red;">Failed to load Markdown content.</p>';
+                    console.error('Error loading markdown file: ', err);
                 });
-            })
-            .catch(err => {
-                document.getElementById('markdown-content').innerHTML = '<p style="color:red;">Failed to load Markdown content.</p>';
-                console.error('Error loading markdown file: ', err);
-            });
+        });
     </script>
 </body>
 </html>

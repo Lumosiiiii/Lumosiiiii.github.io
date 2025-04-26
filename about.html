@@ -1,20 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Markdown to HTML</title>
     <script src="https://cdn.jsdelivr.net/npm/marked@4.0.0/lib/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f4f8;
+            color: #333;
+            line-height: 1.7;
+            padding: 40px;
+            margin: 0;
+        }
+
+        #markdown-content {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 2rem 3rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        h1, h2, h3, h4 {
+            color: #222;
+            margin-top: 1.5em;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.3em;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.2em;
+        }
+
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1em;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        code {
+            background-color: #f2f2f2;
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        blockquote {
+            border-left: 4px solid #ccc;
+            padding-left: 1em;
+            color: #555;
+            background-color: #fafafa;
+        }
+
+        ul, ol {
+            padding-left: 2em;
+        }
+
+        a {
+            color: #007acc;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <div id="markdown-content"></div>
+    <div id="markdown-content">Loading...</div>
     <script>
         fetch('about.md')
             .then(response => response.text())
             .then(text => {
                 document.getElementById('markdown-content').innerHTML = marked.parse(text);
             })
-            .catch(err => console.log('Error loading markdown file: ', err));
+            .catch(err => {
+                document.getElementById('markdown-content').innerHTML = '<p style="color:red;">Failed to load Markdown content.</p>';
+                console.error('Error loading markdown file: ', err);
+            });
     </script>
 </body>
 </html>

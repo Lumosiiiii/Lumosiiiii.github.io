@@ -21,8 +21,9 @@
       fetch(file)
         .then(response => response.text())
         .then(data => {
-          const parser = window.marked.marked; // ✅ 正确获取 parse 方法
-          document.getElementById('content').innerHTML = parser.parse(data);
+          // 直接通过 window.marked 访问 parse
+          // 改改改
+          document.getElementById('content').innerHTML = window.marked.parse(data);
         })
         .catch(error => {
           console.error('加载Markdown文件失败:', error);

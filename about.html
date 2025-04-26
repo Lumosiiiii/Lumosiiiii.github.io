@@ -1,38 +1,36 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>关于我们</title>
-    <link rel="stylesheet" href="style.css"> <!-- 你可以自定义样式 -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于我们</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>关于我们</h1>
-    </header>
+  <header>
+    <h1>关于我们</h1>
+  </header>
 
-    <main>
-        <div id="content"></div>
-    </main>
+  <main>
+    <div id="content"></div>
+  </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>
-        // 创建一个函数来加载并渲染Markdown文件
-        function loadMarkdown(file) {
-            fetch(file)
-                .then(response => response.text())
-                .then(data => {
-                    // 将Markdown内容转化为HTML并显示在页面上
-                    document.getElementById('content').innerHTML = marked(data);
-                })
-                .catch(error => {
-                    console.error('加载Markdown文件失败:', error);
-                    document.getElementById('content').innerHTML = '<p>无法加载内容，请稍后再试。</p>';
-                });
-        }
+  <!-- 使用 UMD 版本的 marked -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.umd.min.js"></script>
+  <script>
+    function loadMarkdown(file) {
+      fetch(file)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('content').innerHTML = marked.parse(data); // 注意这里用 .parse()
+        })
+        .catch(error => {
+          console.error('加载Markdown文件失败:', error);
+          document.getElementById('content').innerHTML = '<p>无法加载内容，请稍后再试。</p>';
+        });
+    }
 
-        // 调用函数加载同文件夹中的 about.md
-        loadMarkdown('about.md');
-    </script>
+    loadMarkdown('about.md');
+  </script>
 </body>
 </html>

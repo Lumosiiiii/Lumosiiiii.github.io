@@ -1,14 +1,55 @@
-# 关于我
+# Python 与 Java 基本语法对比速查表
 
-你好！我是一个热爱技术的开发者，喜欢探索Web开发、人工智能、数据分析等领域。
+---
 
-## 技能
+## 1. 注释
 
-- Web 开发：HTML, CSS, JavaScript, Vue.js
-- 后端开发：Node.js, Python
-- 数据分析：Python, Pandas, TensorFlow
+### Python
+```python
+# 这是单行注释
+"""
+这是多行注释
+"""
+#python
+x = 10
+name = "Alice"
+pi = 3.14
 
-## 联系方式
+//java
+int x = 10;
+String name = "Alice";
+double pi = 3.14;
 
-- 邮箱：[yourname@example.com](mailto:yourname@example.com)
-- GitHub：[github.com/yourname](https://github.com/yourname)
+#python
+class Person:
+    def __init__(self, name):
+        self.name = name
+
+    def greet(self):
+        print("Hi, I'm " + self.name)
+
+p = Person("Bob")
+p.greet()
+
+//java
+public class Person {
+    String name;
+
+    Person(String name) {
+        this.name = name;
+    }
+
+    void greet() {
+        System.out.println("Hi, I'm " + name);
+    }
+}
+// 在 main 方法中使用：
+Person p = new Person("Bob");
+p.greet();
+
+```
+---
+# Finish
+
+
+

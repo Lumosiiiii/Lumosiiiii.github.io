@@ -9,7 +9,7 @@
 <body>
     <div id="markdown-content"></div>
     <script>
-        fetch('yourfile.md')
+        fetch('about.md')
             .then(response => response.text())
             .then(text => {
                 document.getElementById('markdown-content').innerHTML = marked.parse(text);

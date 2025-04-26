@@ -2,27 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Markdown with Prism.js</title>
 
   <!-- marked.js 用于 Markdown 渲染 -->
-  <script src="https://cdn.jsdelivr.net/npm/marked@4.0.0/lib/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked@4.0.0/marked.min.js"></script>
 
-  <!-- Prism.js 样式（可换成其他主题）-->
+  <!-- Prism.js 样式 -->
   <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
 
-  <!-- Prism.js 核心 -->
+  <!-- Prism.js 核心和语言支持 -->
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
-
-  <!-- Prism.js 必须的语言基础：clike -->
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-clike.min.js"></script>
-
-  <!-- Prism.js 支持的语言 -->
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-cpp.min.js"></script>
 
-  <!-- 字体样式 -->
+  <!-- 字体 -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <style>
@@ -35,13 +31,45 @@
       margin: 0;
     }
 
-    #markdown-content {
+    #container {
       max-width: 800px;
       margin: auto;
       background: white;
       padding: 2rem 3rem;
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      position: relative;
+      min-height: 200px;
+    }
+
+    #markdown-content {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    /* Loading 动画 */
+    #loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #888;
+    }
+
+    .spinner {
+      margin: 0 auto 10px;
+      width: 40px;
+      height: 40px;
+      border: 4px solid #ccc;
+      border-top: 4px solid #007acc;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     h1, h2, h3, h4 {
@@ -96,27 +124,40 @@
   </style>
 </head>
 <body>
-  <div id="markdown-content">Loading...</div>
+  <div id="container">
+    <div id="loading">
+      <div class="spinner"></div>
+      Loading...
+    </div>
+    <div id="markdown-content"></div>
+  </div>
+
   <script>
+    // 配置 marked，使它配合 Prism 高亮代码
+    marked.setOptions({
+      highlight: function(code, lang) {
+        if (Prism.languages[lang]) {
+          return Prism.highlight(code, Prism.languages[lang], lang);
+        } else {
+          return code;
+        }
+      }
+    });
+
+    // 异步加载 Markdown
     fetch('about.md')
       .then(response => response.text())
       .then(text => {
-        // 渲染 Markdown 内容
         const html = marked.parse(text);
-
-        // 给代码块添加语言类，确保 Prism 能识别并高亮显示
-        const updatedHtml = html.replace(
-          /<pre><code>/g,
-          '<pre><code class="language-">');
-
-        // 把渲染后的 HTML 插入到页面
-        document.getElementById('markdown-content').innerHTML = updatedHtml;
-
-        // 高亮所有代码块
+        document.getElementById('markdown-content').innerHTML = html;
         Prism.highlightAll();
+
+        // 渐隐Loading，显示内容
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('markdown-content').style.opacity = '1';
       })
       .catch(err => {
-        document.getElementById('markdown-content').innerHTML = '<p style="color:red;">Failed to load Markdown content.</p>';
+        document.getElementById('loading').innerHTML = '<p style="color:red;">Failed to load Markdown content.</p>';
         console.error('Error loading markdown file: ', err);
       });
   </script>

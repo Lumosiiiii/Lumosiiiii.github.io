@@ -6,6 +6,8 @@
     <title>Markdown to HTML</title>
     <script src="https://cdn.jsdelivr.net/npm/marked@4.0.0/lib/marked.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/github-dark.css">
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -100,6 +102,7 @@
                 document.getElementById('markdown-content').innerHTML = '<p style="color:red;">Failed to load Markdown content.</p>';
                 console.error('Error loading markdown file: ', err);
             });
+        hljs.highlightAll();
     </script>
 </body>
 </html>

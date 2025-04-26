@@ -5,22 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Markdown with Prism.js</title>
 
-  <!-- marked.js 渲染 markdown -->
+  <!-- marked.js 用于 Markdown 渲染 -->
   <script src="https://cdn.jsdelivr.net/npm/marked@4.0.0/lib/marked.min.js"></script>
 
-  <!-- Prism.js CSS（你也可以换其他主题，比如 `okaidia`, `tomorrow`, `solarizedlight`）-->
+  <!-- Prism.js 样式（可换成其他主题）-->
   <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
 
   <!-- Prism.js 核心 -->
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
 
-  <!-- Prism.js 语言支持 -->
+  <!-- Prism.js 支持的语言 -->
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-cpp.min.js"></script>
 
-  <!-- 字体 -->
+  <!-- 字体样式 -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <style>
@@ -59,7 +58,6 @@
       padding-bottom: 0.2em;
     }
 
-    /* Prism 默认样式会处理 pre 和 code 的样式 */
     pre {
       border-radius: 8px;
       overflow-x: auto;
@@ -100,20 +98,7 @@
     fetch('about.md')
       .then(response => response.text())
       .then(text => {
-        // 将 code 块包裹上 language class，方便 Prism 高亮
+        // 添加 language class 给代码块，确保 Prism 正确识别
         const html = marked.parse(text).replace(
           /<pre><code class="language-([\w\-]+)">/g,
-          '<pre class="language-$1"><code class="language-$1">'
-        );
-        document.getElementById('markdown-content').innerHTML = html;
-
-        // 调用 Prism 高亮
-        Prism.highlightAll();
-      })
-      .catch(err => {
-        document.getElementById('markdown-content').innerHTML = '<p style="color:red;">Failed to load Markdown content.</p>';
-        console.error('Error loading markdown file: ', err);
-      });
-  </script>
-</body>
-</html>
+          '<pre class="language

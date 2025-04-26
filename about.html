@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Markdown with Prism.js</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown with Prism.js (Fixed)</title>
 
-  <!-- marked.js 用于 Markdown 渲染 -->
-  <script src="https://cdn.jsdelivr.net/npm/marked@4.0.0/marked.min.js"></script>
+  <!-- marked.js 选择兼容浏览器的版本 -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-  <!-- Prism.js 样式 -->
+  <!-- Prism.js 核心 -->
   <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-
-  <!-- Prism.js 核心和语言支持 -->
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+
+  <!-- 必须先加载 clike 语言！ -->
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-clike.min.js"></script>
+
+  <!-- 然后再加载 cpp、python、java 支持 -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-cpp.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-cpp.min.js"></script>
 
   <!-- 字体 -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -30,7 +32,6 @@
       padding: 40px;
       margin: 0;
     }
-
     #container {
       max-width: 800px;
       margin: auto;
@@ -41,13 +42,10 @@
       position: relative;
       min-height: 200px;
     }
-
     #markdown-content {
       opacity: 0;
       transition: opacity 0.5s ease;
     }
-
-    /* Loading 动画 */
     #loading {
       position: absolute;
       top: 50%;
@@ -56,7 +54,6 @@
       text-align: center;
       color: #888;
     }
-
     .spinner {
       margin: 0 auto 10px;
       width: 40px;
@@ -66,34 +63,28 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
-
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-
     h1, h2, h3, h4 {
       color: #222;
       margin-top: 1.5em;
     }
-
     h1 {
       font-size: 2.2rem;
       border-bottom: 2px solid #eee;
       padding-bottom: 0.3em;
     }
-
     h2 {
       font-size: 1.8rem;
       border-bottom: 1px solid #eee;
       padding-bottom: 0.2em;
     }
-
     pre {
       border-radius: 8px;
       overflow-x: auto;
     }
-
     p code, li code, blockquote code {
       background-color: #f2f2f2;
       padding: 0.2em 0.4em;
@@ -101,23 +92,19 @@
       font-family: monospace;
       color: #d63384;
     }
-
     blockquote {
       border-left: 4px solid #ccc;
       padding-left: 1em;
       color: #555;
       background-color: #fafafa;
     }
-
     ul, ol {
       padding-left: 2em;
     }
-
     a {
       color: #007acc;
       text-decoration: none;
     }
-
     a:hover {
       text-decoration: underline;
     }
@@ -133,18 +120,15 @@
   </div>
 
   <script>
-    // 配置 marked，使它配合 Prism 高亮代码
     marked.setOptions({
       highlight: function(code, lang) {
         if (Prism.languages[lang]) {
           return Prism.highlight(code, Prism.languages[lang], lang);
-        } else {
-          return code;
         }
+        return code; // fallback，防止未支持的语言报错
       }
     });
 
-    // 异步加载 Markdown
     fetch('about.md')
       .then(response => response.text())
       .then(text => {
@@ -152,7 +136,6 @@
         document.getElementById('markdown-content').innerHTML = html;
         Prism.highlightAll();
 
-        // 渐隐Loading，显示内容
         document.getElementById('loading').style.display = 'none';
         document.getElementById('markdown-content').style.opacity = '1';
       })

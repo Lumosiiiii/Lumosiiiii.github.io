@@ -98,7 +98,24 @@
     fetch('about.md')
       .then(response => response.text())
       .then(text => {
-        // 添加 language class 给代码块，确保 Prism 正确识别
-        const html = marked.parse(text).replace(
-          /<pre><code class="language-([\w\-]+)">/g,
-          '<pre class="language
+        // 渲染 Markdown 内容
+        const html = marked.parse(text);
+
+        // 给代码块添加语言类，确保 Prism 能识别并高亮显示
+        const updatedHtml = html.replace(
+          /<pre><code>/g,
+          '<pre><code class="language-">');
+
+        // 把渲染后的 HTML 插入到页面
+        document.getElementById('markdown-content').innerHTML = updatedHtml;
+
+        // 高亮所有代码块
+        Prism.highlightAll();
+      })
+      .catch(err => {
+        document.getElementById('markdown-content').innerHTML = '<p style="color:red;">Failed to load Markdown content.</p>';
+        console.error('Error loading markdown file: ', err);
+      });
+  </script>
+</body>
+</html>

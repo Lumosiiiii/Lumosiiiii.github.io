@@ -15,16 +15,14 @@
     <div id="content" class="markdown-body"></div>
   </main>
 
-  <!-- 引入 marked 的 UMD 版本 -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.umd.min.js"></script>
-
   <script>
     function loadMarkdown(file) {
       fetch(file)
         .then(response => response.text())
         .then(data => {
-          // 使用 window.marked 访问全局变量
-          document.getElementById('content').innerHTML = window.marked.parse(data);
+          const parser = window.marked.marked; // ✅ 正确获取 parse 方法
+          document.getElementById('content').innerHTML = parser.parse(data);
         })
         .catch(error => {
           console.error('加载Markdown文件失败:', error);

@@ -97,12 +97,16 @@
             .then(response => response.text())
             .then(text => {
                 document.getElementById('markdown-content').innerHTML = marked.parse(text);
+        
+                // ✅ 确保 markdown 内容渲染完成之后再高亮
+                document.querySelectorAll('pre code').forEach((block) => {
+                    hljs.highlightElement(block);
+                });
             })
             .catch(err => {
                 document.getElementById('markdown-content').innerHTML = '<p style="color:red;">Failed to load Markdown content.</p>';
                 console.error('Error loading markdown file: ', err);
             });
-        hljs.highlightAll();
     </script>
 </body>
 </html>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>关于我们</title>
-<!--   <link rel="stylesheet" href="style.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
 </head>
 <body>
   <header>
@@ -12,17 +12,19 @@
   </header>
 
   <main>
-    <div id="content"></div>
+    <div id="content" class="markdown-body"></div>
   </main>
 
-  <!-- 使用 UMD 版本的 marked -->
+  <!-- 引入 marked 的 UMD 版本 -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.umd.min.js"></script>
+
   <script>
     function loadMarkdown(file) {
       fetch(file)
         .then(response => response.text())
         .then(data => {
-          document.getElementById('content').innerHTML = marked.parse(data); // 注意这里用 .parse()
+          // 使用 window.marked 访问全局变量
+          document.getElementById('content').innerHTML = window.marked.parse(data);
         })
         .catch(error => {
           console.error('加载Markdown文件失败:', error);

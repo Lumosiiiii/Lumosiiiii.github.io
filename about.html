@@ -1,108 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Markdown to HTML</title>
-    <script src="https://cdn.jsdelivr.net/npm/marked@4.0.0/lib/marked.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/github-dark.css">
-    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f4f4f8;
-            color: #333;
-            line-height: 1.7;
-            padding: 40px;
-            margin: 0;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Markdown to HTML</title>
 
-        #markdown-content {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 2rem 3rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
+  <!-- 加载 marked.js 用于 Markdown 转换 -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@4.0.0/lib/marked.min.js"></script>
 
-        h1, h2, h3, h4 {
-            color: #222;
-            margin-top: 1.5em;
-        }
+  <!-- 加载 highlight.js 的样式（你也可以换成别的主题） -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/github-dark.css">
 
-        h1 {
-            font-size: 2.2rem;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 0.3em;
-        }
+  <!-- 加载 highlight.js 的主库 -->
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
 
-        h2 {
-            font-size: 1.8rem;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 0.2em;
-        }
+  <!-- 加一点点 CSS 美化样式 -->
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f4f4f8;
+      color: #333;
+      line-height: 1.7;
+      padding: 40px;
+      margin: 0;
+    }
 
-        pre {
-            background-color: #2d2d2d;
-            color: #f8f8f2;
-            padding: 1em;
-            border-radius: 8px;
-            overflow-x: auto;
-        }
+    #markdown-content {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 2rem 3rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
 
-        /* 行内 code 样式 */
-        p code, li code, blockquote code {
-            background-color: #f2f2f2;
-            padding: 0.2em 0.4em;
-            border-radius: 4px;
-            font-family: monospace;
-            color: #d63384;
-        }
-        
-        /* 代码块样式 */
-        pre code {
-            background: none;
-            color: #f8f8f2;
-            font-size: 0.95em;
-        }
+    h1, h2, h3, h4 {
+      color: #222;
+      margin-top: 1.5em;
+    }
 
+    h1 {
+      font-size: 2.2rem;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 0.3em;
+    }
 
-        blockquote {
-            border-left: 4px solid #ccc;
-            padding-left: 1em;
-            color: #555;
-            background-color: #fafafa;
-        }
+    h2 {
+      font-size: 1.8rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.2em;
+    }
 
-        ul, ol {
-            padding-left: 2em;
-        }
+    p code, li code, blockquote code {
+      background-color: #f2f2f2;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #d63384;
+    }
 
-        a {
-            color: #007acc;
-            text-decoration: none;
-        }
+    pre {
+      background-color: #2d2d2d;
+      color: #f8f8f2;
+      padding: 1em;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
 
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    pre code {
+      background: none;
+      font-size: 0.95em;
+    }
+
+    blockquote {
+      border-left: 4px solid #ccc;
+      padding-left: 1em;
+      color: #555;
+      background-color: #fafafa;
+    }
+
+    ul, ol {
+      padding-left: 2em;
+    }
+
+    a {
+      color: #007acc;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-    <div id="markdown-content">Loading...</div>
-    <script>
-        fetch('about.md')
-            .then(response => response.text())
-            .then(text => {
-                document.getElementById('markdown-content').innerHTML = marked.parse(text);
-            })
-            .catch(err => {
-                document.getElementById('markdown-content').innerHTML = '<p style="color:red;">Failed to load Markdown content.</p>';
-                console.error('Error loading markdown file: ', err);
-            });
-        hljs.highlightAll();
-    </script>
+  <div id="markdown-content">Loading...</div>
+
+  <script>
+    fetch('about.md')
+      .then(response => response.text())
+      .then(text => {
+        // 转换 Markdown 为 HTML
+        const html = marked.parse(text);
+        document.getElementById('markdown-content').innerHTML = html;
+
+        // 高亮代码块（调用 highlight.js）
+        document.querySelectorAll('pre code').forEach((block) => {
+          hljs.highlightElement(block);
+        });
+      })
+      .catch(err => {
+        document.getElementById('markdown-content').innerHTML = '<p style="color:red;">Failed to load Markdown content.</p>';
+        console.error('Error loading markdown file: ', err);
+      });
+  </script>
 </body>
 </html>

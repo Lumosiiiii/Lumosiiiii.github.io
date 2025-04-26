@@ -4,18 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Me</title>
-    <!-- 首先加载 Prism.js 核心 -->
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
     
-    <!-- 然后加载语言支持 -->
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-cpp.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js"></script>
-    
-    <!-- 最后加载 Prism 主题和插件 -->
-    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-okaidia.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!-- highlight.js 代码高亮 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <!-- 支持的语言 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/cpp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/java.min.js"></script>
     
     <style>
         body {
@@ -48,13 +44,21 @@
             border-radius: 5px;
             margin: 20px 0;
             overflow: auto;
+            position: relative;
         }
         
-        code:not([class]) {
-            background-color: #f5f5f5;
-            padding: 2px 4px;
+        code {
+            font-family: 'Courier New', Courier, monospace;
             border-radius: 3px;
-            color: #c7254e;
+        }
+        
+        .hljs {
+            padding: 1em;
+            border-radius: 5px;
+        }
+        
+        .hljs-ln {
+            padding: 1em;
         }
         
         blockquote {
@@ -96,6 +100,17 @@
             max-width: 100%;
             height: auto;
         }
+        
+        /* 代码块标题样式 */
+        .code-header {
+            background-color: #343434;
+            color: #fff;
+            padding: 5px 10px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
@@ -113,11 +128,14 @@
             breaks: true,
             gfm: true,
             highlight: function(code, lang) {
-                if (Prism.languages[lang]) {
-                    return Prism.highlight(code, Prism.languages[lang], lang);
-                } else {
-                    return code;
+                if (lang && hljs.getLanguage(lang)) {
+                    try {
+                        return hljs.highlight(code, { language: lang }).value;
+                    } catch (e) {
+                        console.error('代码高亮错误:', e);
+                    }
                 }
+                return code;
             }
         });
         
@@ -126,12 +144,20 @@
             .then(response => response.text())
             .then(text => {
                 document.getElementById('content').innerHTML = marked.parse(text);
-                // 添加行号到代码块
+                
+                // 为代码块添加语言标签
                 document.querySelectorAll('pre code').forEach((block) => {
-                    block.classList.add('line-numbers');
+                    const lang = block.className.replace('language-', '');
+                    if (lang) {
+                        const header = document.createElement('div');
+                        header.className = 'code-header';
+                        header.textContent = lang;
+                        block.parentNode.insertBefore(header, block);
+                    }
                 });
-                // 重新高亮所有代码块
-                Prism.highlightAll();
+                
+                // 应用高亮
+                hljs.highlightAll();
             })
             .catch(error => {
                 console.error('Error loading about.md:', error);

@@ -1,38 +1,32 @@
-# Python 与 Java 简单示例
+# 示例代码块
 
-## Python 代码
+## Python 示例
 
 ```python
-x = 10
-name = "Alice"
-pi = 3.14
+def greet(name):
+    print(f"Hello, {name}!")
 
-class Person:
-    def __init__(self, name):
-        self.name = name
-
-    def greet(self):
-        print("Hi, I'm " + self.name)
-
-p = Person("Bob")
-p.greet()
+greet("Python Developer")
 ```
 
-## Java 代码
+## Java 示例
 
 ```java
-public class Person {
-    String name;
-
-    Person(String name) {
-        this.name = name;
-    }
-
-    void greet() {
-        System.out.println("Hi, I'm " + name);
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, Java World!");
     }
 }
+```
 
-Person p = new Person("Bob");
-p.greet();
+## C++ 示例
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello, C++ World!" << endl;
+    return 0;
+}
 ```
